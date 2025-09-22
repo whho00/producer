@@ -44,6 +44,10 @@ jobs:
           docker build -t $IMAGE_URI .
           docker push $IMAGE_URI
 
+# Debug: verify AWS identity
+	- name: Verify AWS identity
+  	  run: aws sts get-caller-identity
+
       # (Optional) Deploy to EKS
       # - name: Update K8s Deployment
       #   run: |
