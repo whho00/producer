@@ -1,0 +1,5 @@
+POST http://localhost:8080/order
+Content-Type: text/plain
+
+new-order-123
+
