@@ -18,10 +18,4 @@ public class OrderController {
         kafkaTemplate.send("orders", order);
         return "Order sent: " + order;
     }
-
-    @GetMapping("/health")
-    public String healthCheck() {
-        return "Order service is running!";
-    }
-
 }
