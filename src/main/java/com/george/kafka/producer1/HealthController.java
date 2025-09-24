@@ -1,11 +1,10 @@
 package com.george.kafka.producer1;
 
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/health")
-public class HealthrController {
+public class HealthController {
 
     @GetMapping
     public String healthCheck() {
