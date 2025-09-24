@@ -23,7 +23,7 @@ jobs:
 
       - name: Set up kubeconfig for EKS
         run: |
-          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name <your-eks-cluster-name>
+          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name kafka-microservices
 
       - name: Verify cluster access
         run: kubectl get nodes
