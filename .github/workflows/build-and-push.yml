@@ -5,6 +5,7 @@ on:
     branches:
       - main   # run when code is pushed to main branch
     paths:
+      - 'src/**'
       - 'target/**'
       - 'Dockerfile'
       - '.github/workflows/build-and-push.yml'
