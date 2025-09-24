@@ -28,7 +28,6 @@ jobs:
       - name: Verify cluster access
         run: kubectl get nodes
 
-      - uses: actions/checkout@v4
       - name: Helm upgrade
         run: |
           helm upgrade --install producer1 ./charts --namespace default
