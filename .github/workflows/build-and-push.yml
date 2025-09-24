@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main   # run when code is pushed to main branch
+    paths:
+      - 'target/**'
+      - 'Dockerfile'
+      - '.github/workflows/build-and-push.yml'
 
 jobs:
   build:
