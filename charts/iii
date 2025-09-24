@@ -1,0 +1,71 @@
+Name:             producer1-7b46759d95-9ttdp
+Namespace:        default
+Priority:         0
+Service Account:  producer1
+Node:             ip-192-168-64-241.eu-west-1.compute.internal/192.168.64.241
+Start Time:       Wed, 24 Sep 2025 01:34:21 +0100
+Labels:           app.kubernetes.io/instance=producer1
+                  app.kubernetes.io/managed-by=Helm
+                  app.kubernetes.io/name=producer
+                  app.kubernetes.io/version=1.16.0
+                  helm.sh/chart=producer-0.1.0
+                  pod-template-hash=7b46759d95
+Annotations:      <none>
+Status:           Running
+IP:               192.168.90.145
+IPs:
+  IP:           192.168.90.145
+Controlled By:  ReplicaSet/producer1-7b46759d95
+Containers:
+  producer:
+    Container ID:   containerd://2dd84a34109f2084e4b3f97c142138f57b03582cf5476cd25ff5746f888f56c4
+    Image:          083928968739.dkr.ecr.eu-west-2.amazonaws.com/producer:latest
+    Image ID:       083928968739.dkr.ecr.eu-west-2.amazonaws.com/producer@sha256:f3e55b4eff3a17f84020153a1fe90d0ebd5afe5d5c5cfc68bbb698a4c1527ac8
+    Port:           8080/TCP
+    Host Port:      0/TCP
+    State:          Waiting
+      Reason:       CrashLoopBackOff
+    Last State:     Terminated
+      Reason:       Error
+      Exit Code:    143
+      Started:      Wed, 24 Sep 2025 01:36:23 +0100
+      Finished:     Wed, 24 Sep 2025 01:36:52 +0100
+    Ready:          False
+    Restart Count:  4
+    Liveness:       http-get http://:http/ delay=0s timeout=1s period=10s #success=1 #failure=3
+    Readiness:      http-get http://:http/ delay=0s timeout=1s period=10s #success=1 #failure=3
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-x5gj7 (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       False 
+  ContainersReady             False 
+  PodScheduled                True 
+Volumes:
+  kube-api-access-x5gj7:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                   From               Message
+  ----     ------     ----                  ----               -------
+  Normal   Scheduled  2m54s                 default-scheduler  Successfully assigned default/producer1-7b46759d95-9ttdp to ip-192-168-64-241.eu-west-1.compute.internal
+  Normal   Pulling    2m52s                 kubelet            Pulling image "083928968739.dkr.ecr.eu-west-2.amazonaws.com/producer:latest"
+  Normal   Pulled     2m45s                 kubelet            Successfully pulled image "083928968739.dkr.ecr.eu-west-2.amazonaws.com/producer:latest" in 6.939s (6.939s including waiting). Image size: 284247400 bytes.
+  Warning  Unhealthy  2m43s                 kubelet            Liveness probe failed: Get "http://192.168.90.145:8080/": dial tcp 192.168.90.145:8080: connect: connection refused
+  Warning  Unhealthy  111s (x7 over 2m45s)  kubelet            Readiness probe failed: Get "http://192.168.90.145:8080/": dial tcp 192.168.90.145:8080: connect: connection refused
+  Warning  Unhealthy  83s (x9 over 2m33s)   kubelet            Readiness probe failed: HTTP probe failed with statuscode: 404
+  Warning  Unhealthy  83s (x8 over 2m33s)   kubelet            Liveness probe failed: HTTP probe failed with statuscode: 404
+  Normal   Pulled     53s (x4 over 2m22s)   kubelet            Container image "083928968739.dkr.ecr.eu-west-2.amazonaws.com/producer:latest" already present on machine
+  Normal   Created    52s (x5 over 2m45s)   kubelet            Created container: producer
+  Normal   Started    52s (x5 over 2m45s)   kubelet            Started container producer
+  Normal   Killing    23s (x5 over 2m23s)   kubelet            Container producer failed liveness probe, will be restarted
