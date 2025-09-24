@@ -25,6 +25,9 @@ jobs:
         run: |
           aws eks update-kubeconfig --region ${{ secrets.AWS_REGION_EKS }} --name kafka-microservices
 
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
+
       - name: Verify cluster access
         run: kubectl get nodes
 
