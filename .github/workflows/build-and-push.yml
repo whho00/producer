@@ -12,7 +12,7 @@ on:
       - '.github/workflows/build-and-push.yml'
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -63,11 +63,6 @@ jobs:
       #   run: |
       #     aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name kafka-microservices
       #     kubectl set image deployment/producer1 producer1=$IMAGE_URI -n default
-
-
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
       - name: Checkout repo
         uses: actions/checkout@v4
 
