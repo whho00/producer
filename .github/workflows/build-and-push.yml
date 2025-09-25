@@ -46,7 +46,7 @@ jobs:
       # Build Docker image
       - name: Build, Tag, and Push Image to ECR
         run: |
-          IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+          IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
           docker build --no-cache -t $IMAGE_URI .
           docker push $IMAGE_URI
 
@@ -88,7 +88,9 @@ jobs:
       - name: Verify cluster access
         run: kubectl get nodes
 
-      - name: Helm upgrade
-        run: |
-          helm upgrade --install producer1 ./charts --namespace default
+     - name: Helm upgrade
+       run: |
+         helm upgrade --install producer1 ./charts \
+           --namespace default \
+           --set image=$IMAGE_URI
 
