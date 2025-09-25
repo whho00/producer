@@ -74,6 +74,6 @@ jobs:
       - name: Helm upgrade
         run: |
           helm upgrade --install producer1 ./charts --namespace default \
-            --set image.repository=$IMAGE_URI \
+            --set image.repository=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }} \
             --set image.tag=${{ github.sha }}
-#
+
