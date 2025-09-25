@@ -75,5 +75,5 @@ jobs:
         run: |
           helm upgrade --install producer1 ./charts --namespace default \
             --set image.repository=$IMAGE_URI \
-            --set image.tag=$TAG
+            --set image.tag=${{ github.sha }}
 #
