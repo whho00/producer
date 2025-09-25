@@ -37,7 +37,7 @@ jobs:
 
       - name: Helm upgrade
         run: |
-	  echo $IMAGE_URI
+          echo $IMAGE_URI
 #          helm upgrade --install producer1 ./charts --namespace default \
 #            --set image=$IMAGE_URI
 
