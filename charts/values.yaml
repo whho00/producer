@@ -88,19 +88,16 @@ resources: {}
 
 # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 livenessProbe:
-  enabled: false
-#  httpGet:
-#    path: /health
-#    port: 8080
+  enabled: true
+  httpGet:
+    path: /health
+    port: 8080
 readinessProbe:
-  enabled: false
-#  httpGet:
-#    path: /health
-#    port: 8080
-#
+  enabled: true
+  httpGet:
+    path: /health
+    port: 8080
 
-livenessProbe: {}
-readinessProbe: {}
 
 
 #
