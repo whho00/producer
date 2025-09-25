@@ -68,3 +68,11 @@ jobs:
       - name: Verify AWS identity
         run: aws sts get-caller-identity
 
+      - name: Verify cluster access
+        run: kubectl get nodes
+
+      - name: Helm upgrade
+        run: |
+          helm upgrade --install producer1 ./charts --namespace default 
+#            --set image=$IMAGE_URI
+
