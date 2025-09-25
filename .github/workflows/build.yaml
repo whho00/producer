@@ -14,6 +14,9 @@ on:
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+    env:
+      IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }} 
+      TAG=${{ github.sha }}
     steps:
       # Checkout repo
       - name: Checkout code
@@ -45,8 +48,8 @@ jobs:
       # Build Docker image
       - name: Build, Tag, and Push Image to ECR
         run: |
-          TAG=${{ github.sha }}
-          IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}
+#          TAG=${{ github.sha }}
+#          IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}
           docker build --no-cache -t $IMAGE_URI:$TAG .
           docker push $IMAGE_URI:$TAG
 
@@ -74,8 +77,10 @@ jobs:
       - name: Helm upgrade
         run: |
           helm upgrade --install producer1 ./charts --namespace default \
-            --set image.repository=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }} \
-            --set image.tag=${{ github.sha }}
+#            --set image.repository=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }} \
+#            --set image.tag=${{ github.sha }}
+            --set image.repository=$IMAGE_URI \
+            --set image.tag=$TAG
 
 #
 

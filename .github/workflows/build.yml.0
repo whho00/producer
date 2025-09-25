@@ -45,10 +45,10 @@ jobs:
       # Build Docker image
       - name: Build, Tag, and Push Image to ECR
         run: |
-          IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
-          docker build --no-cache -t $IMAGE_URI .
-          docker push $IMAGE_URI
-#          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV   # persist for later steps
+          TAG=${{ github.sha }}
+          IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}
+          docker build --no-cache -t $IMAGE_URI:$TAG .
+          docker push $IMAGE_URI:$TAG
 
       # Checkout again (optional, can remove if repo already present)
       - name: Checkout repo
@@ -73,6 +73,9 @@ jobs:
 
       - name: Helm upgrade
         run: |
-          helm upgrade --install producer1 ./charts --namespace default 
-#            --set image=$IMAGE_URI
+          helm upgrade --install producer1 ./charts --namespace default \
+            --set image.repository=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }} \
+            --set image.tag=${{ github.sha }}
+
+#
 
