@@ -50,12 +50,12 @@ jobs:
           docker push $IMAGE_URI
 
       # Debug: Check Docker image
-      - name: Check docker JAR contents
-        run: jar tf target/producer1-0.0.1-SNAPSHOT.jar 
+      #- name: Check docker JAR contents
+      #  run: jar tf target/producer1-0.0.1-SNAPSHOT.jar 
 
       # Debug: verify AWS identity
-      - name: Verify AWS identity
-        run: aws sts get-caller-identity
+      #- name: Verify AWS identity
+      #  run: aws sts get-caller-identity
 
       # (Optional) Deploy to EKS
       # - name: Update K8s Deployment
