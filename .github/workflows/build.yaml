@@ -15,8 +15,8 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     env:
-      IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }} 
-      TAG=${{ github.sha }}
+      IMAGE_URI: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }} 
+      TAG: ${{ github.sha }}
     steps:
       # Checkout repo
       - name: Checkout code
