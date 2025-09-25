@@ -46,7 +46,7 @@ jobs:
       - name: Build, Tag, and Push Image to ECR
         run: |
           IMAGE_URI=${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
-          docker build -t $IMAGE_URI .
+          docker build --no-cache -t $IMAGE_URI .
           docker push $IMAGE_URI
 
       # Debug: Check Docker image
