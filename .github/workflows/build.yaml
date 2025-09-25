@@ -9,7 +9,7 @@ on:
       - 'target/**'
       - 'Dockerfile'
       - 'charts/**'
-      - '.github/workflows/build-and-push.yml'
+      - '.github/workflows/build.yaml'
 
 jobs:
   build-deploy:
