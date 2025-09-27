@@ -23,21 +23,20 @@ pipeline {
         }
 
 	stage('Docker Build & Push') {
-    		steps {
-        	withAWS(region: "${AWS_REGION}", credentials: 'aws-creds') {
-            	script {
-                sh """
-                aws ecr get-login-password --region ${env.AWS_REGION} \
-                 	| docker login --username AWS --password-stdin ${env.ECR_REPO}
-
-                docker build -t ${env.IMAGE_NAME}:latest .
-                docker tag ${env.IMAGE_NAME}:latest ${env.ECR_REPO}/${env.IMAGE_NAME}:latest
-                	docker push ${env.ECR_REPO}/${env.IMAGE_NAME}:latest
-                """
-	        }
-        	}
-		}
-	}
+           steps {
+              withAWS(region: "${AWS_REGION}", credentials: 'aws-creds') {
+                 script {
+                    sh """
+                        aws ecr get-login-password --region ${env.AWS_REGION} \
+                        | docker login --username AWS --password-stdin ${env.ECR_REPO}
+                        docker build -t ${env.IMAGE_NAME}:latest .
+                        docker tag ${env.IMAGE_NAME}:latest ${env.ECR_REPO}/${env.IMAGE_NAME}:latest
+                        docker push ${env.ECR_REPO}/${env.IMAGE_NAME}:latest
+"""
+                 }
+              }
+           }
+        }
     }
 }
 
