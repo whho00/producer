@@ -18,7 +18,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'echo "Running tests..."'
+                sh 'echo "Running tests2 ..."'
                 // Example: sh 'mvn test' or npm test
             }
         }
