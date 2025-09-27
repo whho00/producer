@@ -42,9 +42,10 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-eks', variable: 'KUBECONFIG')]) {
                     sh """
-                    helm upgrade --install $IMAGE_NAME ./chart \
-                        --set name=$IMAGE_NAME,image=$ECR_REPO/$IMAGE_NAME:latest
-                    """
+          helm upgrade --install $IMAGE_NAME ./charts --namespace default \
+                --set image.repository=$ECR_REPO/$IMAGE_NAME \
+                --set image.tag=latest 
+"""
                 }
             }
         }
