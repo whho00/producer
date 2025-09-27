@@ -56,6 +56,18 @@ pipeline {
             }
         }
 
+        stage('Verify AWS identity') {
+            steps {
+                sh 'aws sts get-caller-identity'
+            }
+        }
+
+        stage('Verify cluster access') {
+            steps {
+                sh 'kubectl get nodes'
+            }
+        }
+
         stage('Deploy to EKS') {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-eks', variable: 'KUBECONFIG')]) {
