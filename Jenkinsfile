@@ -34,9 +34,10 @@ pipeline {
                 docker tag ${env.IMAGE_NAME}:latest ${env.ECR_REPO}/${env.IMAGE_NAME}:latest
                 	docker push ${env.ECR_REPO}/${env.IMAGE_NAME}:latest
                 """
-            }
-        }
-
+	        }
+        	}
+		}
+	}
     }
 }
 
