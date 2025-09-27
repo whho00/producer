@@ -4,7 +4,7 @@ pipeline {
     environment {
         AWS_REGION   = "eu-west-2"
         ECR_REPO     = "083928968739.dkr.ecr.eu-west-2.amazonaws.com/producer"
-        IMAGE_NAME   = "producer1"
+        IMAGE_NAME   = "producer"
         KUBE_CONFIG  = credentials('kubeconfig-eks')   // Jenkins secret
         AWS_CREDENTIALS = credentials('aws-creds')     // Jenkins secret
     }
@@ -30,8 +30,8 @@ pipeline {
                         aws ecr get-login-password --region ${env.AWS_REGION} \
                         | docker login --username AWS --password-stdin ${env.ECR_REPO}
                         docker build -t ${env.IMAGE_NAME}:latest .
-                        docker tag ${env.IMAGE_NAME}:latest ${env.ECR_REPO}/${env.IMAGE_NAME}:latest
-                        docker push ${env.ECR_REPO}/${env.IMAGE_NAME}:latest
+                        docker tag ${env.IMAGE_NAME}:latest ${env.ECR_REPO}:latest
+                        docker push ${env.ECR_REPO}:latest
 """
                  }
               }
