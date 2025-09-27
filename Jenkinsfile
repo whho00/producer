@@ -2,12 +2,15 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION   = "eu-west-2"
+        AWS_REGION       = "eu-west-2"
+        EKS_REGION       = "eu-west-1"
+	EKS_CLUSTER      = "kafka-microservices"
         ECR_REPO     = "083928968739.dkr.ecr.eu-west-2.amazonaws.com"
         IMAGE_NAME   = "producer"
         KUBE_CONFIG  = credentials('kubeconfig-eks')   // Jenkins secret
         AWS_CREDENTIALS = credentials('aws-creds')     // Jenkins secret
     }
+
 
     stages {
         stage('Checkout') {
@@ -36,6 +39,21 @@ pipeline {
                  }
               }
            }
+        }
+
+        stage('Configure Kubeconfig') {
+            steps {
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-creds',
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                ]]) {
+                    sh """
+            aws eks update-kubeconfig --region ${env.EKS_REGION} --name ${env.EKS_CLUSTER}
+"""
+                }
+            }
         }
 
         stage('Deploy to EKS') {
