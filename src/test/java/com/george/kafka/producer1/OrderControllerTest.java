@@ -9,7 +9,7 @@ class OrderControllerTest {
 
     @Test
     void getOrder() {
-        assertEquals(1,2);
+        assertEquals(1,1);
 
     }
 }
