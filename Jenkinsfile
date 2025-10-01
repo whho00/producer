@@ -77,13 +77,15 @@ env.UNIQUE_TAG = "${env.BUILD_NUMBER}-${gitCommit}"
 
         stage('Deploy to EKS') {
             steps {
-              sh """
+		withAWS(region: "${EKS_REGION}", credentials: 'aws-creds') {
+                sh """
 	helm upgrade --install ${env.IMG_NAME} ./charts \
         --namespace default \
 	--set image.repository=${env.IMG_URL} \
 	--set image.tag=${env.UNIQUE_TAG} 
 """
                 }
+		}
         }
 
 
