@@ -80,7 +80,6 @@ env.UNIQUE_TAG = "${env.BUILD_NUMBER}-${gitCommit}"
 	--set image.tag=${env.UNIQUE_TAG} 
 """
                 }
-            }
         }
 
 
