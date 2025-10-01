@@ -2,26 +2,24 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION       = "eu-west-2"
-        EKS_REGION       = "eu-west-1"
-	EKS_CLUSTER      = "kafka-microservices"
+        AWS_REGION   = "eu-west-2"
+        EKS_REGION   = "eu-west-1"
+	EKS_CLUSTER  = "kafka-microservices"
         ECR_REPO     = "083928968739.dkr.ecr.eu-west-2.amazonaws.com"
-        IMAGE_NAME   = "producer"
-        KUBE_CONFIG  = credentials('kubeconfig-eks')   // Jenkins secret
-        AWS_CREDENTIALS = credentials('aws-creds')     // Jenkins secret
+        IMG_NAME     = "producer1"
+        IMG_URL      = "${ECR_REPO}/${IMG_NAME}"
     }
 
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/whho00/producer.git'
+                git branch: 'main', url: 'https://github.com/whho00/producer1.git'
             }
         }
 
         stage('Build JAR') {
             steps {
-//                sh './mvnw clean package -DskipTests'
                 sh './mvnw clean package'
             }
         }
@@ -30,15 +28,19 @@ pipeline {
            steps {
               withAWS(region: "${AWS_REGION}", credentials: 'aws-creds') {
                  script {
+def gitCommit = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
+env.UNIQUE_TAG = "${env.BUILD_NUMBER}-${gitCommit}"
+
                     sh """
-              aws ecr get-login-password --region ${env.AWS_REGION} \
+           aws ecr get-login-password --region ${env.AWS_REGION} \
                 | docker login --username AWS --password-stdin ${env.ECR_REPO}
-              docker build -t ${env.IMAGE_NAME}:latest .
-              docker tag ${env.IMAGE_NAME}:latest ${env.ECR_REPO}/${env.IMAGE_NAME}:latest 
-              docker push ${env.ECR_REPO}/${env.IMAGE_NAME}:latest 
+           docker build -t ${env.IMG_NAME} .
+           docker tag      ${env.IMG_NAME} ${env.IMG_URL}:${env.UNIQUE_TAG} 
+           docker push     ${env.IMG_URL}:${env.UNIQUE_TAG} 
 """
                  }
               }
+
            }
         }
 
@@ -71,12 +73,11 @@ pipeline {
 
         stage('Deploy to EKS') {
             steps {
-                withCredentials([file(credentialsId: 'kubeconfig-eks', variable: 'KUBECONFIG')]) {
-                    sh """
-	KUBECONFIG=/var/lib/jenkins/.kube/config \
-	helm upgrade --install $IMAGE_NAME ./charts --namespace default \
-	--set image.repository=$ECR_REPO/$IMAGE_NAME \
-	--set image.tag=latest 
+              sh """
+	helm upgrade --install ${env.IMG_NAME} ./charts \
+        --namespace default \
+	--set image.repository=${env.IMG_URL} \
+	--set image.tag=${env.UNIQUE_TAG} 
 """
                 }
             }
@@ -85,5 +86,6 @@ pipeline {
 
     }
 }
+
 
 
