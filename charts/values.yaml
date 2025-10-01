@@ -90,12 +90,12 @@ resources: {}
 livenessProbe:
   enabled: true
   httpGet:
-    path: /health
+    path: /actuator/health
     port: 8080
 readinessProbe:
   enabled: true
   httpGet:
-    path: /health
+    path: /actuator/health
     port: 8080
 
 
