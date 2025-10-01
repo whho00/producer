@@ -61,13 +61,17 @@ env.UNIQUE_TAG = "${env.BUILD_NUMBER}-${gitCommit}"
 
         stage('Verify AWS identity') {
             steps {
-                sh 'aws sts get-caller-identity'
+		withAWS(region: "${EKS_REGION}", credentials: 'aws-creds') {
+                	sh 'aws sts get-caller-identity'
+		}
             }
         }
 
         stage('Verify cluster access') {
             steps {
-                sh 'kubectl get nodes'
+		withAWS(region: "${EKS_REGION}", credentials: 'aws-creds') {
+                	sh 'kubectl get nodes'
+		}
             }
         }
 
